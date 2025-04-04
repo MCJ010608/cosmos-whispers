@@ -35,61 +35,20 @@ const PoemDisplay = () => {
   // Create array of words to highlight based on user selections
   const cosmicWords = Object.values(userWords);
   
-  // Create poems using the selected words
-  const generatePoems = () => {
+  // Generate the specific poem lines with blanks filled in
+  const generateSimplifiedPoem = () => {
     const { proximity, celestial, scope, essence } = userWords;
+    const oppositeProximity = proximity === 'near' ? 'far' : 'near';
     
-    return {
-      across: [
-        "In the vast expanse where galaxies bloom,",
-        `I find myself thinking of you—whether ${proximity} or ${proximity === 'near' ? 'far' : 'near'},`,
-        "Your essence transcends the cosmic distances,",
-        `Like ${celestial}light traveling across eons to find me.`,
-        `This ${scope} conspires in magnificent ways,`,
-        "To bring souls together across impossible divides."
-      ],
-      bodies: [
-        `You are my ${celestial}—constant, burning, life-giving,`,
-        "While I orbit in patterns drawn by your gravity,",
-        `Sometimes a distant ${celestial}, pulsing with quiet ${essence},`,
-        "Other times a nebula, expanding with possibility.",
-        "In this dance of celestial bodies,",
-        "We create our own constellation of moments."
-      ],
-      years: [
-        `${essence === 'light' ? 'Light' : 'Energy'} carries the memory of ancient ${celestial}s,`,
-        "Just as I carry the echoes of your touch,",
-        `Across ${celestial === 'star' ? 'light' : 'cosmic'} years of separation,`,
-        `The ${scope} whispers your name in quantum vibrations.`,
-        `${essence === 'light' ? 'Energy' : 'Light'} never dies—it transforms,`,
-        "As has my soul since knowing yours."
-      ],
-      constants: [
-        `In a ${scope} of entropic chaos,`,
-        "Finding you was a beautiful improbability,",
-        "Like two particles quantum-entangled,",
-        "Connected beyond the constraints of time and space.",
-        `The ${essence} between us—a force neither created nor destroyed,`,
-        "Only changed into infinite forms of love."
-      ],
-      convergence: [
-        "When stars collapse, they create the elements of life,",
-        "From their sacrifice, new worlds are born,",
-        "So too have we been transformed,",
-        "In the gravity well of our shared experience.",
-        `The ${scope} lives within us, as we live within it,`,
-        `${celestial}-stuff contemplating ${celestial}-stuff, forever intertwined.`
-      ],
-      closing: [
-        `Whether ${proximity} or ${proximity === 'near' ? 'far' : 'near'}, under the same ${celestial}s or distant ${celestial}s,`,
-        `Our connection remains—a ${scope === 'universe' ? 'cosmic' : 'universal'} constant,`,
-        `Whispered across the ${scope} on waves of ${essence} and ${essence === 'light' ? 'energy' : 'light'},`,
-        `A love letter written in the language of the ${scope} itself.`
-      ]
-    };
+    return [
+      `Through time and space, ${proximity} or ${oppositeProximity},`,
+      `You'll always be my guiding ${celestial}.`,
+      `The ${scope} may fade away,`,
+      `Yet your ${essence} will always stay.`
+    ];
   };
   
-  const poems = generatePoems();
+  const poemLines = generateSimplifiedPoem();
 
   return (
     <div className="min-h-screen bg-cosmic-deep-space text-white font-serif relative overflow-hidden">
@@ -138,57 +97,34 @@ const PoemDisplay = () => {
       
       {/* Poetry content */}
       <main className="relative z-10 pb-32">
-        <PoetrySection
-          title="Across the Void"
-          lines={poems.across}
-          highlightWords={cosmicWords}
-          baseDelay={300}
-        />
-        
-        <PoetrySection
-          title="Celestial Bodies"
-          lines={poems.bodies}
-          highlightWords={cosmicWords}
-          baseDelay={300}
-        />
-        
-        <PoetrySection
-          title="Light Years"
-          lines={poems.years}
-          highlightWords={cosmicWords}
-          baseDelay={300}
-        />
-        
-        <PoetrySection
-          title="Universal Constants"
-          lines={poems.constants}
-          highlightWords={cosmicWords}
-          baseDelay={300}
-        />
-        
-        <PoetrySection
-          title="Cosmic Convergence"
-          lines={poems.convergence}
-          highlightWords={cosmicWords}
-          baseDelay={300}
-        />
-        
-        <PoetrySection
-          title=""
-          lines={poems.closing}
-          highlightWords={cosmicWords}
-          className="mt-32 text-center"
-          lineClassName="text-xl md:text-2xl italic"
-          baseDelay={300}
-        />
-        
-        <div className="mt-16 flex justify-center">
-          <Button 
-            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-            onClick={() => navigate('/')}
-          >
-            Create Another Poem
-          </Button>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <div className="max-w-2xl mx-auto text-center px-4">
+            <h2 className="text-3xl md:text-4xl font-serif italic mb-12 text-glow">
+              Your Cosmic Words
+            </h2>
+            
+            {poemLines.map((line, index) => (
+              <p 
+                key={index} 
+                className="text-2xl md:text-3xl font-serif mb-8 leading-relaxed opacity-0 animate-fade-up"
+                style={{ animationDelay: `${index * 0.5 + 0.5}s`, animationFillMode: 'forwards' }}
+              >
+                {line}
+              </p>
+            ))}
+            
+            <div 
+              className="mt-16 opacity-0 animate-fade-up"
+              style={{ animationDelay: '2.5s', animationFillMode: 'forwards' }}
+            >
+              <Button 
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                onClick={() => navigate('/')}
+              >
+                Create Another Poem
+              </Button>
+            </div>
+          </div>
         </div>
       </main>
       
