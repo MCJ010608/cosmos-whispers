@@ -41,7 +41,7 @@ const PoemDisplay = () => {
     const oppositeProximity = proximity === 'near' ? 'far' : 'near';
     
     return [
-      `Through time and space, ${proximity} or ${oppositeProximity},`,
+      `Through space and time, ${proximity} or ${oppositeProximity},`,
       `You'll always be my guiding ${celestial}.`,
       `The ${scope} may fade away,`,
       `Yet your ${essence} will always stay.`
