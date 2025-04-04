@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StarBackground from '@/components/StarBackground';
@@ -38,10 +37,9 @@ const PoemDisplay = () => {
   // Generate the specific poem lines with blanks filled in
   const generateSimplifiedPoem = () => {
     const { proximity, celestial, scope, essence } = userWords;
-    const oppositeProximity = proximity === 'near' ? 'far' : 'near';
     
     return [
-      `Through space and time, ${proximity} or ${oppositeProximity},`,
+      `Through space and time, ${proximity} or ____,`,
       `You'll always be my guiding ${celestial}.`,
       `The ${scope} may fade away,`,
       `Yet your ${essence} will always stay.`
