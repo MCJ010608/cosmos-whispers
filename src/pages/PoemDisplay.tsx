@@ -39,7 +39,7 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Through space and time, ${proximity} or ____,`,
+      `Through space and time, ${proximity},`,
       `You'll always be my guiding ${celestial}.`,
       `The ${scope} may fade away,`,
       `Yet your ${essence} will always stay.`
