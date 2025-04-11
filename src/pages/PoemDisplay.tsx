@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StarBackground from '@/components/StarBackground';
@@ -39,7 +40,7 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Through space and time, ${proximity},`,
+      `Through space and time, near or ${proximity},`,
       `You'll always be my guiding ${celestial}.`,
       `The ${scope} may fade away,`,
       `Yet your ${essence} will always stay.`
