@@ -35,6 +35,12 @@ const PoemDisplay = () => {
   // Create array of words to highlight based on user selections
   const cosmicWords = Object.values(userWords);
   
+  // Helper function to determine text color based on word
+  const getWordColor = (word: string) => {
+    const whiteWords = ['far', 'star', 'cosmos', 'energy'];
+    return whiteWords.includes(word.toLowerCase()) ? 'text-white' : 'text-yellow-200';
+  };
+  
   // Generate the specific poem lines with blanks filled in
   const generateSimplifiedPoem = () => {
     const { proximity, celestial, scope, essence } = userWords;
@@ -102,15 +108,30 @@ const PoemDisplay = () => {
               Your Cosmic Words
             </h2>
             
-            {poemLines.map((line, index) => (
-              <p 
-                key={index} 
-                className="text-2xl md:text-3xl font-serif mb-8 leading-relaxed opacity-0 animate-fade-up"
-                style={{ animationDelay: `${index * 0.5 + 0.5}s`, animationFillMode: 'forwards' }}
-              >
-                {line}
-              </p>
-            ))}
+            {poemLines.map((line, index) => {
+              // Split the line to highlight specific words with colors
+              const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
+              
+              return (
+                <p 
+                  key={index} 
+                  className="text-2xl md:text-3xl font-serif mb-8 leading-relaxed opacity-0 animate-fade-up"
+                  style={{ animationDelay: `${index * 0.5 + 0.5}s`, animationFillMode: 'forwards' }}
+                >
+                  {parts.map((part, partIndex) => {
+                    const lowerPart = part.toLowerCase();
+                    if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+                      return (
+                        <span key={partIndex} className={getWordColor(lowerPart)}>
+                          {part}
+                        </span>
+                      );
+                    }
+                    return part;
+                  })}
+                </p>
+              );
+            })}
             
             <div 
               className="mt-16 opacity-0 animate-fade-up"

@@ -25,17 +25,33 @@ const PoetryLine: React.FC<PoetryLineProps> = ({
     return () => clearTimeout(timer);
   }, [delay]);
 
+  // Helper function to determine color based on word
+  const getWordColor = (word: string) => {
+    const whiteWords = ['far', 'star', 'cosmos', 'energy'];
+    return whiteWords.includes(word.toLowerCase()) ? 'text-white' : 'text-yellow-200';
+  };
+
   // Add special highlighting for specific words
   const highlightedText = () => {
     if (highlightWords.length === 0) return text;
     
-    let result = text;
-    highlightWords.forEach(word => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      result = result.replace(regex, `<span class="text-glow-strong font-medium text-white">${word}</span>`);
-    });
+    const parts = text.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
     
-    return <span dangerouslySetInnerHTML={{ __html: result }} />;
+    return (
+      <>
+        {parts.map((part, index) => {
+          const lowerPart = part.toLowerCase();
+          if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+            return (
+              <span key={index} className={`font-medium ${getWordColor(lowerPart)}`}>
+                {part}
+              </span>
+            );
+          }
+          return part;
+        })}
+      </>
+    );
   };
   
   return (
