@@ -59,6 +59,35 @@ const PoemDisplay = () => {
   
   const poemLines = generateSimplifiedPoem();
 
+  // Special handling for the word "near" in the first line
+  const renderSpecialFirstLine = (line: string) => {
+    // Split the line to identify the word "near" specifically in the first line
+    const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
+    
+    return (
+      <>
+        {parts.map((part, partIndex) => {
+          const lowerPart = part.toLowerCase();
+          // Special case for "near" in the first line
+          if (lowerPart === 'near') {
+            return (
+              <span key={partIndex} className="text-purple-300">
+                {part}
+              </span>
+            );
+          } else if (['far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+            return (
+              <span key={partIndex} className={getWordColor(lowerPart)}>
+                {part}
+              </span>
+            );
+          }
+          return <span key={partIndex} className="text-purple-300">{part}</span>;
+        })}
+      </>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-cosmic-deep-space text-white font-serif relative overflow-hidden">
       {/* Background elements */}
@@ -113,26 +142,29 @@ const PoemDisplay = () => {
             </h2>
             
             {poemLines.map((line, index) => {
-              // Split the line to highlight specific words with colors
-              const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
-              
               return (
                 <p 
                   key={index} 
                   className="text-2xl md:text-3xl font-serif mb-8 leading-relaxed opacity-0 animate-fade-up"
                   style={{ animationDelay: `${index * 0.5 + 0.5}s`, animationFillMode: 'forwards' }}
                 >
-                  {parts.map((part, partIndex) => {
-                    const lowerPart = part.toLowerCase();
-                    if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
-                      return (
-                        <span key={partIndex} className={getWordColor(lowerPart)}>
-                          {part}
-                        </span>
-                      );
-                    }
-                    return <span key={partIndex} className="text-purple-300">{part}</span>;
-                  })}
+                  {index === 0 ? renderSpecialFirstLine(line) : 
+                    // For other lines, use the regular parsing
+                    (() => {
+                      const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
+                      return parts.map((part, partIndex) => {
+                        const lowerPart = part.toLowerCase();
+                        if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+                          return (
+                            <span key={partIndex} className={getWordColor(lowerPart)}>
+                              {part}
+                            </span>
+                          );
+                        }
+                        return <span key={partIndex} className="text-purple-300">{part}</span>;
+                      });
+                    })()
+                  }
                 </p>
               );
             })}
