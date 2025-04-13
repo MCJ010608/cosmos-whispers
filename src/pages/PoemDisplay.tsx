@@ -61,21 +61,27 @@ const PoemDisplay = () => {
 
   // Special handling for the word "near" in the first line
   const renderSpecialFirstLine = (line: string) => {
-    // Split the line to identify the word "near" specifically in the first line
-    const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
+    // Split the line to identify the literal "near" in the first line, preserving user selection
+    const regex = /\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi;
+    const parts = line.split(regex);
+    
+    let nearCount = 0;
     
     return (
       <>
         {parts.map((part, partIndex) => {
           const lowerPart = part.toLowerCase();
-          // Special case for "near" in the first line
-          if (lowerPart === 'near') {
+          
+          // Special case for the first "near" in the first line only
+          if (lowerPart === 'near' && nearCount === 0) {
+            nearCount++;
             return (
               <span key={partIndex} className="text-purple-300">
                 {part}
               </span>
             );
-          } else if (['far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+          } else if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+            // All other keywords including the selected "near" (if it appears as the second "near")
             return (
               <span key={partIndex} className={getWordColor(lowerPart)}>
                 {part}
