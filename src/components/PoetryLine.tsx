@@ -43,7 +43,7 @@ const PoetryLine: React.FC<PoetryLineProps> = ({
           const lowerPart = part.toLowerCase();
           if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
             return (
-              <span key={index} className={`font-medium ${getWordColor(lowerPart)}`}>
+              <span key={index} className={`font-bold ${getWordColor(lowerPart)}`}>
                 {part}
               </span>
             );

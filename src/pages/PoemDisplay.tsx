@@ -122,7 +122,7 @@ const PoemDisplay = () => {
                     const lowerPart = part.toLowerCase();
                     if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
                       return (
-                        <span key={partIndex} className={getWordColor(lowerPart)}>
+                        <span key={partIndex} className={`font-bold ${getWordColor(lowerPart)}`}>
                           {part}
                         </span>
                       );

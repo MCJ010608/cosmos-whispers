@@ -79,7 +79,7 @@ const WordSelection = () => {
                 variant={selectedWords.proximity === 'near' ? 'default' : 'outline'} 
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.proximity === 'near' ? 'bg-purple-600 hover:bg-purple-700 text-yellow-200' : 'bg-transparent border-purple-400 text-purple-200'
+                  selectedWords.proximity === 'near' ? 'bg-purple-600 hover:bg-purple-700 text-yellow-200 font-bold' : 'bg-transparent border-purple-400 text-purple-200'
                 )}
                 onClick={() => handleWordSelection('proximity', 'near')}
               >
@@ -89,7 +89,7 @@ const WordSelection = () => {
                 variant={selectedWords.proximity === 'far' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.proximity === 'far' ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-transparent border-purple-400 text-purple-200'
+                  selectedWords.proximity === 'far' ? 'bg-purple-600 hover:bg-purple-700 text-white font-bold' : 'bg-transparent border-purple-400 text-purple-200'
                 )}
                 onClick={() => handleWordSelection('proximity', 'far')}
               >
@@ -106,7 +106,7 @@ const WordSelection = () => {
                 variant={selectedWords.celestial === 'star' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.celestial === 'star' ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-transparent border-blue-400 text-blue-200'
+                  selectedWords.celestial === 'star' ? 'bg-blue-600 hover:bg-blue-700 text-white font-bold' : 'bg-transparent border-blue-400 text-blue-200'
                 )}
                 onClick={() => handleWordSelection('celestial', 'star')}
               >
@@ -116,7 +116,7 @@ const WordSelection = () => {
                 variant={selectedWords.celestial === 'sun' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.celestial === 'sun' ? 'bg-blue-600 hover:bg-blue-700 text-yellow-200' : 'bg-transparent border-blue-400 text-blue-200'
+                  selectedWords.celestial === 'sun' ? 'bg-blue-600 hover:bg-blue-700 text-yellow-200 font-bold' : 'bg-transparent border-blue-400 text-blue-200'
                 )}
                 onClick={() => handleWordSelection('celestial', 'sun')}
               >
@@ -133,7 +133,7 @@ const WordSelection = () => {
                 variant={selectedWords.scope === 'universe' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.scope === 'universe' ? 'bg-teal-600 hover:bg-teal-700 text-yellow-200' : 'bg-transparent border-teal-400 text-teal-200'
+                  selectedWords.scope === 'universe' ? 'bg-teal-600 hover:bg-teal-700 text-yellow-200 font-bold' : 'bg-transparent border-teal-400 text-teal-200'
                 )}
                 onClick={() => handleWordSelection('scope', 'universe')}
               >
@@ -143,7 +143,7 @@ const WordSelection = () => {
                 variant={selectedWords.scope === 'cosmos' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.scope === 'cosmos' ? 'bg-teal-600 hover:bg-teal-700 text-white' : 'bg-transparent border-teal-400 text-teal-200'
+                  selectedWords.scope === 'cosmos' ? 'bg-teal-600 hover:bg-teal-700 text-white font-bold' : 'bg-transparent border-teal-400 text-teal-200'
                 )}
                 onClick={() => handleWordSelection('scope', 'cosmos')}
               >
@@ -160,7 +160,7 @@ const WordSelection = () => {
                 variant={selectedWords.essence === 'light' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.essence === 'light' ? 'bg-amber-600 hover:bg-amber-700 text-yellow-200' : 'bg-transparent border-amber-400 text-amber-200'
+                  selectedWords.essence === 'light' ? 'bg-amber-600 hover:bg-amber-700 text-yellow-200 font-bold' : 'bg-transparent border-amber-400 text-amber-200'
                 )}
                 onClick={() => handleWordSelection('essence', 'light')}
               >
@@ -170,7 +170,7 @@ const WordSelection = () => {
                 variant={selectedWords.essence === 'energy' ? 'default' : 'outline'}
                 className={cn(
                   "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.essence === 'energy' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'bg-transparent border-amber-400 text-amber-200'
+                  selectedWords.essence === 'energy' ? 'bg-amber-600 hover:bg-amber-700 text-white font-bold' : 'bg-transparent border-amber-400 text-amber-200'
                 )}
                 onClick={() => handleWordSelection('essence', 'energy')}
               >
