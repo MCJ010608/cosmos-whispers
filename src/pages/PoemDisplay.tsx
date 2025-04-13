@@ -38,7 +38,11 @@ const PoemDisplay = () => {
   // Helper function to determine text color based on word
   const getWordColor = (word: string) => {
     const whiteWords = ['far', 'star', 'cosmos', 'energy'];
-    return whiteWords.includes(word.toLowerCase()) ? 'text-white' : 'text-yellow-200';
+    const yellowWords = ['near', 'sun', 'universe', 'light'];
+    
+    if (whiteWords.includes(word.toLowerCase())) return 'text-white font-bold';
+    if (yellowWords.includes(word.toLowerCase())) return 'text-yellow-200 font-bold';
+    return 'text-purple-300'; // Default purple color for non-selected words
   };
   
   // Generate the specific poem lines with blanks filled in
@@ -122,12 +126,12 @@ const PoemDisplay = () => {
                     const lowerPart = part.toLowerCase();
                     if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
                       return (
-                        <span key={partIndex} className={`font-bold ${getWordColor(lowerPart)}`}>
+                        <span key={partIndex} className={getWordColor(lowerPart)}>
                           {part}
                         </span>
                       );
                     }
-                    return part;
+                    return <span key={partIndex} className="text-purple-300">{part}</span>;
                   })}
                 </p>
               );
