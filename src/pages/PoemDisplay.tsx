@@ -27,8 +27,8 @@ const PoemDisplay = () => {
       
       // Check if this is using alternative word pairs
       const alternativeWords = ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'];
-      const hasAlternativeWords = Object.values(parsedWords).some(word => 
-        alternativeWords.includes(word.toLowerCase())
+      const hasAlternativeWords = Object.values(parsedWords).some((word: unknown) => 
+        typeof word === 'string' && alternativeWords.includes(word.toLowerCase())
       );
       setIsAlternativePoem(hasAlternativeWords);
     }
