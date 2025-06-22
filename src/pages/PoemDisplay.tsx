@@ -15,13 +15,22 @@ const PoemDisplay = () => {
     scope: 'cosmos',
     essence: 'light'
   });
+  const [isAlternativePoem, setIsAlternativePoem] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
     // Get the selected words from localStorage
     const storedWords = localStorage.getItem('cosmicWords');
     if (storedWords) {
-      setUserWords(JSON.parse(storedWords));
+      const parsedWords = JSON.parse(storedWords);
+      setUserWords(parsedWords);
+      
+      // Check if this is using alternative word pairs
+      const alternativeWords = ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'];
+      const hasAlternativeWords = Object.values(parsedWords).some(word => 
+        alternativeWords.includes(word.toLowerCase())
+      );
+      setIsAlternativePoem(hasAlternativeWords);
     }
     
     const handleScroll = () => {
@@ -37,16 +46,16 @@ const PoemDisplay = () => {
   
   // Helper function to determine text color based on word
   const getWordColor = (word: string) => {
-    const whiteWords = ['far', 'star', 'cosmos', 'energy'];
-    const yellowWords = ['near', 'sun', 'universe', 'light'];
+    const whiteWords = ['far', 'star', 'cosmos', 'energy', 'distant', 'galaxy', 'atom', 'magnetism'];
+    const yellowWords = ['near', 'sun', 'universe', 'light', 'quantum', 'nebula', 'molecule', 'gravity'];
     
     if (whiteWords.includes(word.toLowerCase())) return 'text-white font-bold';
     if (yellowWords.includes(word.toLowerCase())) return 'text-yellow-200 font-bold';
     return 'text-purple-300'; // Default purple color for non-selected words
   };
   
-  // Generate the specific poem lines with blanks filled in
-  const generateSimplifiedPoem = () => {
+  // Generate the fixed poem for first-time users
+  const generateFixedPoem = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
@@ -56,12 +65,46 @@ const PoemDisplay = () => {
       `Yet your ${essence} will always stay.`
     ];
   };
-  
-  const poemLines = generateSimplifiedPoem();
 
-  // Special handling for the word "near" in the first line
+  // Generate alternative poem for repeat visits
+  const generateAlternativePoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `In the dance of ${proximity} particles,`,
+      `I find echoes of your ${celestial} beauty.`,
+      `From the smallest ${scope} to infinite space,`,
+      `Your ${essence} binds my very existence.`
+    ];
+  };
+  
+  const poemLines = isAlternativePoem ? generateAlternativePoem() : generateFixedPoem();
+
+  // Special handling for the word "near" in the first line (only for fixed poem)
   const renderSpecialFirstLine = (line: string) => {
-    // Split the line to identify the literal "near" in the first line, preserving user selection
+    if (isAlternativePoem) {
+      // For alternative poem, use regular parsing
+      const regex = /\b(quantum|distant|nebula|galaxy|molecule|atom|gravity|magnetism|near|far|star|sun|cosmos|universe|light|energy)\b/gi;
+      const parts = line.split(regex);
+      
+      return (
+        <>
+          {parts.map((part, partIndex) => {
+            const lowerPart = part.toLowerCase();
+            if (['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+              return (
+                <span key={partIndex} className={getWordColor(lowerPart)}>
+                  {part}
+                </span>
+              );
+            }
+            return <span key={partIndex} className="text-purple-300">{part}</span>;
+          })}
+        </>
+      );
+    }
+
+    // Original logic for fixed poem - special handling for literal "near"
     const regex = /\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi;
     const parts = line.split(regex);
     
@@ -157,10 +200,16 @@ const PoemDisplay = () => {
                   {index === 0 ? renderSpecialFirstLine(line) : 
                     // For other lines, use the regular parsing
                     (() => {
-                      const parts = line.split(/\b(near|far|star|sun|cosmos|universe|light|energy)\b/gi);
+                      const allWords = isAlternativePoem 
+                        ? ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+                        : ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'];
+                      
+                      const regex = new RegExp(`\\b(${allWords.join('|')})\\b`, 'gi');
+                      const parts = line.split(regex);
+                      
                       return parts.map((part, partIndex) => {
                         const lowerPart = part.toLowerCase();
-                        if (['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+                        if (allWords.includes(lowerPart)) {
                           return (
                             <span key={partIndex} className={getWordColor(lowerPart)}>
                               {part}

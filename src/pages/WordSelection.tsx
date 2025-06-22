@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import StarBackground from '@/components/StarBackground';
@@ -14,6 +14,36 @@ const WordSelection = () => {
     scope: '',
     essence: '',
   });
+  const [isRepeatVisit, setIsRepeatVisit] = useState(false);
+
+  // Fixed word pairs for first-time users
+  const fixedWordPairs = {
+    proximity: ['near', 'far'],
+    celestial: ['star', 'sun'],
+    scope: ['universe', 'cosmos'],
+    essence: ['light', 'energy']
+  };
+
+  // Alternative word pairs for repeat visits
+  const alternativeWordPairs = {
+    proximity: ['quantum', 'distant'],
+    celestial: ['nebula', 'galaxy'],
+    scope: ['molecule', 'atom'],
+    essence: ['gravity', 'magnetism']
+  };
+
+  const categoryLabels = {
+    proximity: 'Connection',
+    celestial: 'Cosmic Body',
+    scope: 'Scale',
+    essence: 'Force'
+  };
+
+  useEffect(() => {
+    // Check if this is a repeat visit within the same session
+    const hasVisitedBefore = sessionStorage.getItem('hasVisitedPoem');
+    setIsRepeatVisit(!!hasVisitedBefore);
+  }, []);
 
   // Function to play sound (to be implemented by user)
   const playButtonSound = (wordType: string, word: string) => {
@@ -23,7 +53,7 @@ const WordSelection = () => {
 
   // Helper function to determine text color based on selected word
   const getTextColor = (word: string) => {
-    const whiteWords = ['far', 'star', 'cosmos', 'energy'];
+    const whiteWords = ['far', 'star', 'cosmos', 'energy', 'distant', 'galaxy', 'atom', 'magnetism'];
     return whiteWords.includes(word.toLowerCase()) ? 'text-white' : 'text-yellow-200';
   };
 
@@ -48,6 +78,8 @@ const WordSelection = () => {
     if (allSelected) {
       // Store selections in localStorage to access them on the poetry page
       localStorage.setItem('cosmicWords', JSON.stringify(selectedWords));
+      // Mark that user has visited the poem page in this session
+      sessionStorage.setItem('hasVisitedPoem', 'true');
       // Navigate to the poetry page
       navigate('/poem');
     } else {
@@ -55,6 +87,9 @@ const WordSelection = () => {
       console.log('Please select one word from each category');
     }
   };
+
+  // Get the appropriate word pairs based on visit status
+  const currentWordPairs = isRepeatVisit ? alternativeWordPairs : fixedWordPairs;
 
   return (
     <div className="min-h-screen bg-cosmic-deep-space text-white font-serif relative overflow-hidden">
@@ -71,113 +106,38 @@ const WordSelection = () => {
         </p>
         
         <div className="max-w-xl mx-auto space-y-8 fade-up">
-          {/* Proximity Words */}
-          <div className="space-y-2">
-            <h2 className="text-xl text-gray-200 font-serif">Proximity:</h2>
-            <div className="flex gap-4 justify-center">
-              <Button
-                variant={selectedWords.proximity === 'near' ? 'default' : 'outline'} 
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.proximity === 'near' ? 'bg-purple-600 hover:bg-purple-700 text-yellow-200 font-bold' : 'bg-transparent border-purple-400 text-purple-200'
-                )}
-                onClick={() => handleWordSelection('proximity', 'near')}
-              >
-                Near
-              </Button>
-              <Button
-                variant={selectedWords.proximity === 'far' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.proximity === 'far' ? 'bg-purple-600 hover:bg-purple-700 text-white font-bold' : 'bg-transparent border-purple-400 text-purple-200'
-                )}
-                onClick={() => handleWordSelection('proximity', 'far')}
-              >
-                Far
-              </Button>
+          {/* Dynamic word pairs based on visit status */}
+          {Object.entries(currentWordPairs).map(([category, words]) => (
+            <div key={category} className="space-y-2">
+              <h2 className="text-xl text-gray-200 font-serif">{categoryLabels[category as keyof typeof categoryLabels]}:</h2>
+              <div className="flex gap-4 justify-center">
+                <Button
+                  variant={selectedWords[category] === words[0] ? 'default' : 'outline'} 
+                  className={cn(
+                    "w-1/2 py-6 text-lg transition-all duration-300",
+                    selectedWords[category] === words[0] 
+                      ? `bg-purple-600 hover:bg-purple-700 ${getTextColor(words[0])} font-bold` 
+                      : 'bg-transparent border-purple-400 text-purple-200'
+                  )}
+                  onClick={() => handleWordSelection(category, words[0])}
+                >
+                  {words[0].charAt(0).toUpperCase() + words[0].slice(1)}
+                </Button>
+                <Button
+                  variant={selectedWords[category] === words[1] ? 'default' : 'outline'}
+                  className={cn(
+                    "w-1/2 py-6 text-lg transition-all duration-300",
+                    selectedWords[category] === words[1] 
+                      ? `bg-purple-600 hover:bg-purple-700 ${getTextColor(words[1])} font-bold` 
+                      : 'bg-transparent border-purple-400 text-purple-200'
+                  )}
+                  onClick={() => handleWordSelection(category, words[1])}
+                >
+                  {words[1].charAt(0).toUpperCase() + words[1].slice(1)}
+                </Button>
+              </div>
             </div>
-          </div>
-          
-          {/* Celestial Words */}
-          <div className="space-y-2">
-            <h2 className="text-xl text-gray-200 font-serif">Celestial Body:</h2>
-            <div className="flex gap-4 justify-center">
-              <Button
-                variant={selectedWords.celestial === 'star' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.celestial === 'star' ? 'bg-blue-600 hover:bg-blue-700 text-white font-bold' : 'bg-transparent border-blue-400 text-blue-200'
-                )}
-                onClick={() => handleWordSelection('celestial', 'star')}
-              >
-                Star
-              </Button>
-              <Button
-                variant={selectedWords.celestial === 'sun' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.celestial === 'sun' ? 'bg-blue-600 hover:bg-blue-700 text-yellow-200 font-bold' : 'bg-transparent border-blue-400 text-blue-200'
-                )}
-                onClick={() => handleWordSelection('celestial', 'sun')}
-              >
-                Sun
-              </Button>
-            </div>
-          </div>
-          
-          {/* Scope Words */}
-          <div className="space-y-2">
-            <h2 className="text-xl text-gray-200 font-serif">Cosmic Scale:</h2>
-            <div className="flex gap-4 justify-center">
-              <Button
-                variant={selectedWords.scope === 'universe' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.scope === 'universe' ? 'bg-teal-600 hover:bg-teal-700 text-yellow-200 font-bold' : 'bg-transparent border-teal-400 text-teal-200'
-                )}
-                onClick={() => handleWordSelection('scope', 'universe')}
-              >
-                Universe
-              </Button>
-              <Button
-                variant={selectedWords.scope === 'cosmos' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.scope === 'cosmos' ? 'bg-teal-600 hover:bg-teal-700 text-white font-bold' : 'bg-transparent border-teal-400 text-teal-200'
-                )}
-                onClick={() => handleWordSelection('scope', 'cosmos')}
-              >
-                Cosmos
-              </Button>
-            </div>
-          </div>
-          
-          {/* Essence Words */}
-          <div className="space-y-2">
-            <h2 className="text-xl text-gray-200 font-serif">Cosmic Essence:</h2>
-            <div className="flex gap-4 justify-center">
-              <Button
-                variant={selectedWords.essence === 'light' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.essence === 'light' ? 'bg-amber-600 hover:bg-amber-700 text-yellow-200 font-bold' : 'bg-transparent border-amber-400 text-amber-200'
-                )}
-                onClick={() => handleWordSelection('essence', 'light')}
-              >
-                Light
-              </Button>
-              <Button
-                variant={selectedWords.essence === 'energy' ? 'default' : 'outline'}
-                className={cn(
-                  "w-1/2 py-6 text-lg transition-all duration-300",
-                  selectedWords.essence === 'energy' ? 'bg-amber-600 hover:bg-amber-700 text-white font-bold' : 'bg-transparent border-amber-400 text-amber-200'
-                )}
-                onClick={() => handleWordSelection('essence', 'energy')}
-              >
-                Energy
-              </Button>
-            </div>
-          </div>
+          ))}
           
           {/* Submit Button */}
           <div className="pt-8">
