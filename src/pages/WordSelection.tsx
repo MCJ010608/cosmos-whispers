@@ -43,20 +43,20 @@ const WordSelection = () => {
   // Define gradient styles for each category
   const categoryStyles = {
     proximity: {
-      selected: 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800',
-      unselected: 'bg-transparent border-purple-400 text-purple-200 hover:bg-purple-900/30'
+      selected: 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-200 hover:to-purple-300 hover:text-black',
+      unselected: 'bg-transparent border-purple-400 text-purple-200 hover:bg-purple-200 hover:text-black hover:border-purple-300'
     },
     celestial: {
-      selected: 'bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800',
-      unselected: 'bg-transparent border-blue-400 text-blue-200 hover:bg-blue-900/30'
+      selected: 'bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-200 hover:to-blue-300 hover:text-black',
+      unselected: 'bg-transparent border-blue-400 text-blue-200 hover:bg-blue-200 hover:text-black hover:border-blue-300'
     },
     scope: {
-      selected: 'bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800',
-      unselected: 'bg-transparent border-teal-400 text-teal-200 hover:bg-teal-900/30'
+      selected: 'bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-200 hover:to-teal-300 hover:text-black',
+      unselected: 'bg-transparent border-teal-400 text-teal-200 hover:bg-teal-200 hover:text-black hover:border-teal-300'
     },
     essence: {
-      selected: 'bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800',
-      unselected: 'bg-transparent border-orange-400 text-orange-200 hover:bg-orange-900/30'
+      selected: 'bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-200 hover:to-orange-300 hover:text-black',
+      unselected: 'bg-transparent border-orange-400 text-orange-200 hover:bg-orange-200 hover:text-black hover:border-orange-300'
     }
   };
 
@@ -72,9 +72,24 @@ const WordSelection = () => {
     console.log(`Button clicked: ${wordType} - ${word}`);
   };
 
-  // Helper function to randomly assign white or yellow color
-  const getRandomTextColor = () => {
-    return Math.random() < 0.5 ? 'white' : 'yellow';
+  // Helper function to assign colors ensuring each pair has one white and one yellow
+  const assignPairColors = (category: string, word: string, wordPairs: Record<string, string[]>) => {
+    const pair = wordPairs[category];
+    const otherWord = pair.find(w => w !== word);
+    
+    if (!otherWord) return 'white'; // fallback
+    
+    // Check if the other word already has a color assigned
+    const otherWordColor = wordColors[otherWord];
+    
+    if (otherWordColor) {
+      // If other word has a color, assign the opposite
+      return otherWordColor === 'white' ? 'yellow' : 'white';
+    } else {
+      // If no other word has color yet, randomly assign and ensure they're different
+      const randomColor = Math.random() < 0.5 ? 'white' : 'yellow';
+      return randomColor;
+    }
   };
 
   // Helper function to get text color class
@@ -87,11 +102,15 @@ const WordSelection = () => {
     // Play sound when a word is selected
     playButtonSound(wordType, word);
     
-    // Assign random color to the selected word if it doesn't have one
+    // Get appropriate word pairs based on visit status
+    const currentWordPairs = isRepeatVisit ? alternativeWordPairs : fixedWordPairs;
+    
+    // Assign color ensuring each pair has one white and one yellow
     if (!wordColors[word]) {
+      const assignedColor = assignPairColors(wordType, word, currentWordPairs);
       setWordColors(prev => ({
         ...prev,
-        [word]: getRandomTextColor()
+        [word]: assignedColor
       }));
     }
     
@@ -177,7 +196,7 @@ const WordSelection = () => {
           {/* Submit Button */}
           <div className="pt-8">
             <Button 
-              className="w-full py-8 text-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+              className="w-full py-8 text-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-200 hover:to-pink-300 hover:text-black transition-all duration-300"
               onClick={handleSubmit}
             >
               Create Cosmic Poem
