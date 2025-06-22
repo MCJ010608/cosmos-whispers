@@ -15,6 +15,7 @@ const WordSelection = () => {
     essence: '',
   });
   const [isRepeatVisit, setIsRepeatVisit] = useState(false);
+  const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
 
   // Fixed word pairs for first-time users
   const fixedWordPairs = {
@@ -39,6 +40,26 @@ const WordSelection = () => {
     essence: 'Force'
   };
 
+  // Define gradient styles for each category
+  const categoryStyles = {
+    proximity: {
+      selected: 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800',
+      unselected: 'bg-transparent border-purple-400 text-purple-200 hover:bg-purple-900/30'
+    },
+    celestial: {
+      selected: 'bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800',
+      unselected: 'bg-transparent border-blue-400 text-blue-200 hover:bg-blue-900/30'
+    },
+    scope: {
+      selected: 'bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800',
+      unselected: 'bg-transparent border-teal-400 text-teal-200 hover:bg-teal-900/30'
+    },
+    essence: {
+      selected: 'bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800',
+      unselected: 'bg-transparent border-orange-400 text-orange-200 hover:bg-orange-900/30'
+    }
+  };
+
   useEffect(() => {
     // Check if this is a repeat visit within the same session
     const hasVisitedBefore = sessionStorage.getItem('hasVisitedPoem');
@@ -51,15 +72,28 @@ const WordSelection = () => {
     console.log(`Button clicked: ${wordType} - ${word}`);
   };
 
-  // Helper function to determine text color based on selected word
-  const getTextColor = (word: string) => {
-    const whiteWords = ['far', 'star', 'cosmos', 'energy', 'distant', 'galaxy', 'atom', 'magnetism'];
-    return whiteWords.includes(word.toLowerCase()) ? 'text-white' : 'text-yellow-200';
+  // Helper function to randomly assign white or yellow color
+  const getRandomTextColor = () => {
+    return Math.random() < 0.5 ? 'white' : 'yellow';
+  };
+
+  // Helper function to get text color class
+  const getTextColorClass = (word: string) => {
+    const color = wordColors[word];
+    return color === 'white' ? 'text-white' : 'text-yellow-200';
   };
 
   const handleWordSelection = (wordType: string, word: string) => {
     // Play sound when a word is selected
     playButtonSound(wordType, word);
+    
+    // Assign random color to the selected word if it doesn't have one
+    if (!wordColors[word]) {
+      setWordColors(prev => ({
+        ...prev,
+        [word]: getRandomTextColor()
+      }));
+    }
     
     // Update the selected words
     setSelectedWords(prev => ({
@@ -76,8 +110,9 @@ const WordSelection = () => {
     const allSelected = Object.values(selectedWords).every(word => word !== '');
     
     if (allSelected) {
-      // Store selections in localStorage to access them on the poetry page
+      // Store selections and their colors in localStorage
       localStorage.setItem('cosmicWords', JSON.stringify(selectedWords));
+      localStorage.setItem('cosmicWordColors', JSON.stringify(wordColors));
       // Mark that user has visited the poem page in this session
       sessionStorage.setItem('hasVisitedPoem', 'true');
       // Navigate to the poetry page
@@ -114,10 +149,10 @@ const WordSelection = () => {
                 <Button
                   variant={selectedWords[category] === words[0] ? 'default' : 'outline'} 
                   className={cn(
-                    "w-1/2 py-6 text-lg transition-all duration-300",
+                    "w-1/2 py-6 text-lg transition-all duration-300 font-bold",
                     selectedWords[category] === words[0] 
-                      ? `bg-purple-600 hover:bg-purple-700 ${getTextColor(words[0])} font-bold` 
-                      : 'bg-transparent border-purple-400 text-purple-200'
+                      ? `${categoryStyles[category as keyof typeof categoryStyles].selected} ${getTextColorClass(words[0])}` 
+                      : categoryStyles[category as keyof typeof categoryStyles].unselected
                   )}
                   onClick={() => handleWordSelection(category, words[0])}
                 >
@@ -126,10 +161,10 @@ const WordSelection = () => {
                 <Button
                   variant={selectedWords[category] === words[1] ? 'default' : 'outline'}
                   className={cn(
-                    "w-1/2 py-6 text-lg transition-all duration-300",
+                    "w-1/2 py-6 text-lg transition-all duration-300 font-bold",
                     selectedWords[category] === words[1] 
-                      ? `bg-purple-600 hover:bg-purple-700 ${getTextColor(words[1])} font-bold` 
-                      : 'bg-transparent border-purple-400 text-purple-200'
+                      ? `${categoryStyles[category as keyof typeof categoryStyles].selected} ${getTextColorClass(words[1])}` 
+                      : categoryStyles[category as keyof typeof categoryStyles].unselected
                   )}
                   onClick={() => handleWordSelection(category, words[1])}
                 >

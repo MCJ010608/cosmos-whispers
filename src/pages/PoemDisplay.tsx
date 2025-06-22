@@ -15,12 +15,15 @@ const PoemDisplay = () => {
     scope: 'cosmos',
     essence: 'light'
   });
+  const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
   const [isAlternativePoem, setIsAlternativePoem] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
     // Get the selected words from localStorage
     const storedWords = localStorage.getItem('cosmicWords');
+    const storedColors = localStorage.getItem('cosmicWordColors');
+    
     if (storedWords) {
       const parsedWords = JSON.parse(storedWords);
       setUserWords(parsedWords);
@@ -31,6 +34,10 @@ const PoemDisplay = () => {
         typeof word === 'string' && alternativeWords.includes(word.toLowerCase())
       );
       setIsAlternativePoem(hasAlternativeWords);
+    }
+    
+    if (storedColors) {
+      setWordColors(JSON.parse(storedColors));
     }
     
     const handleScroll = () => {
@@ -44,13 +51,11 @@ const PoemDisplay = () => {
   // Create array of words to highlight based on user selections
   const cosmicWords = Object.values(userWords);
   
-  // Helper function to determine text color based on word
+  // Helper function to determine text color based on stored colors
   const getWordColor = (word: string) => {
-    const whiteWords = ['far', 'star', 'cosmos', 'energy', 'distant', 'galaxy', 'atom', 'magnetism'];
-    const yellowWords = ['near', 'sun', 'universe', 'light', 'quantum', 'nebula', 'molecule', 'gravity'];
-    
-    if (whiteWords.includes(word.toLowerCase())) return 'text-white font-bold';
-    if (yellowWords.includes(word.toLowerCase())) return 'text-yellow-200 font-bold';
+    const color = wordColors[word];
+    if (color === 'white') return 'text-white font-bold';
+    if (color === 'yellow') return 'text-yellow-200 font-bold';
     return 'text-purple-300'; // Default purple color for non-selected words
   };
   
