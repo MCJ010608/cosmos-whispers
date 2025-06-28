@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StarBackground from '@/components/StarBackground';
@@ -15,7 +16,7 @@ const PoemDisplay = () => {
     essence: 'light'
   });
   const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
-  const [poemType, setPoemType] = useState<'fixed' | 'alternative' | 'third'>('fixed');
+  const [poemType, setPoemType] = useState<'fixed' | 'alternative' | 'third' | 'fourth' | 'fifth' | 'sixth' | 'seventh' | 'eighth' | 'ninth' | 'tenth'>('fixed');
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -30,17 +31,36 @@ const PoemDisplay = () => {
       // Determine poem type based on words used
       const alternativeWords = ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'];
       const thirdVisitWords = ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space'];
+      const fourthVisitWords = ['eternal', 'fleeting', 'pulsar', 'quasar', 'microcosm', 'macrocosm', 'harmony', 'chaos'];
+      const fifthVisitWords = ['bound', 'free', 'asteroid', 'meteor', 'particle', 'wave', 'rhythm', 'silence'];
+      const sixthVisitWords = ['parallel', 'convergent', 'dwarf', 'giant', 'quantum', 'cosmic', 'vibration', 'stillness'];
+      const seventhVisitWords = ['adjacent', 'remote', 'binary', 'solitary', 'nano', 'mega', 'flow', 'stasis'];
+      const eighthVisitWords = ['connected', 'isolated', 'bright', 'dark', 'finite', 'boundless', 'pulse', 'calm'];
+      const ninthVisitWords = ['intimate', 'distant', 'radiant', 'shadowed', 'local', 'universal', 'motion', 'rest'];
+      const tenthVisitWords = ['close', 'apart', 'burning', 'cold', 'tiny', 'vast', 'force', 'peace'];
       
-      const hasThirdWords = Object.values(parsedWords).some((word: unknown) => 
-        typeof word === 'string' && thirdVisitWords.includes(word.toLowerCase())
-      );
-      const hasAlternativeWords = Object.values(parsedWords).some((word: unknown) => 
-        typeof word === 'string' && alternativeWords.includes(word.toLowerCase())
-      );
+      const hasWords = (wordSet: string[]) => 
+        Object.values(parsedWords).some((word: unknown) => 
+          typeof word === 'string' && wordSet.includes(word.toLowerCase())
+        );
       
-      if (hasThirdWords) {
+      if (hasWords(tenthVisitWords)) {
+        setPoemType('tenth');
+      } else if (hasWords(ninthVisitWords)) {
+        setPoemType('ninth');
+      } else if (hasWords(eighthVisitWords)) {
+        setPoemType('eighth');
+      } else if (hasWords(seventhVisitWords)) {
+        setPoemType('seventh');
+      } else if (hasWords(sixthVisitWords)) {
+        setPoemType('sixth');
+      } else if (hasWords(fifthVisitWords)) {
+        setPoemType('fifth');
+      } else if (hasWords(fourthVisitWords)) {
+        setPoemType('fourth');
+      } else if (hasWords(thirdVisitWords)) {
         setPoemType('third');
-      } else if (hasAlternativeWords) {
+      } else if (hasWords(alternativeWords)) {
         setPoemType('alternative');
       } else {
         setPoemType('fixed');
@@ -105,21 +125,123 @@ const PoemDisplay = () => {
       `Your ${essence} weaves through eternity.`
     ];
   };
+
+  // Generate fourth poem
+  const generateFourthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `In moments ${proximity} and profound,`,
+      `Like a ${celestial} in deep space found,`,
+      `Within each ${scope} of reality,`,
+      `Your ${essence} sets my spirit free.`
+    ];
+  };
+
+  // Generate fifth poem
+  const generateFifthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `Whether ${proximity} or wandering free,`,
+      `Like a ${celestial} across the cosmic sea,`,
+      `In every ${scope} of quantum light,`,
+      `Your ${essence} makes everything right.`
+    ];
+  };
+
+  // Generate sixth poem
+  const generateSixthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `Through paths ${proximity} in the void,`,
+      `Where ${celestial} stars are deployed,`,
+      `In the ${scope} realm of dreams,`,
+      `Your ${essence} forever gleams.`
+    ];
+  };
+
+  // Generate seventh poem
+  const generateSeventhPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `From positions ${proximity} in space,`,
+      `A ${celestial} illuminates your face,`,
+      `In the ${scope} world we share,`,
+      `Your ${essence} is beyond compare.`
+    ];
+  };
+
+  // Generate eighth poem
+  const generateEighthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `Though we may be ${proximity} apart,`,
+      `Like a ${celestial} burning in my heart,`,
+      `In this ${scope} universe so wide,`,
+      `Your ${essence} is my eternal guide.`
+    ];
+  };
+
+  // Generate ninth poem
+  const generateNinthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `In moments ${proximity} and true,`,
+      `A ${celestial} reminds me of you,`,
+      `Through the ${scope} tapestry of time,`,
+      `Your ${essence} makes everything rhyme.`
+    ];
+  };
+
+  // Generate tenth poem
+  const generateTenthPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `Whether ${proximity} or worlds apart,`,
+      `A ${celestial} flame within my heart,`,
+      `In this ${scope} cosmic dance divine,`,
+      `Your ${essence} eternally aligns with mine.`
+    ];
+  };
   
-  const poemLines = poemType === 'third' ? generateThirdPoem() : 
+  const poemLines = poemType === 'tenth' ? generateTenthPoem() :
+                   poemType === 'ninth' ? generateNinthPoem() :
+                   poemType === 'eighth' ? generateEighthPoem() :
+                   poemType === 'seventh' ? generateSeventhPoem() :
+                   poemType === 'sixth' ? generateSixthPoem() :
+                   poemType === 'fifth' ? generateFifthPoem() :
+                   poemType === 'fourth' ? generateFourthPoem() :
+                   poemType === 'third' ? generateThirdPoem() : 
                    poemType === 'alternative' ? generateAlternativePoem() : 
                    generateFixedPoem();
 
   // Special handling for the word "near" in the first line (only for fixed poem)
   const renderSpecialFirstLine = (line: string) => {
-    const allWords = poemType === 'third' 
-      ? ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
-      : poemType === 'alternative'
-      ? ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
-      : ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'];
+    const allWordSets = {
+      tenth: ['close', 'apart', 'burning', 'cold', 'tiny', 'vast', 'force', 'peace'],
+      ninth: ['intimate', 'distant', 'radiant', 'shadowed', 'local', 'universal', 'motion', 'rest'],
+      eighth: ['connected', 'isolated', 'bright', 'dark', 'finite', 'boundless', 'pulse', 'calm'],
+      seventh: ['adjacent', 'remote', 'binary', 'solitary', 'nano', 'mega', 'flow', 'stasis'],
+      sixth: ['parallel', 'convergent', 'dwarf', 'giant', 'quantum', 'cosmic', 'vibration', 'stillness'],
+      fifth: ['bound', 'free', 'asteroid', 'meteor', 'particle', 'wave', 'rhythm', 'silence'],
+      fourth: ['eternal', 'fleeting', 'pulsar', 'quasar', 'microcosm', 'macrocosm', 'harmony', 'chaos'],
+      third: ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space'],
+      alternative: ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'],
+      fixed: ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+    };
+
+    const currentWords = allWordSets[poemType] || allWordSets.fixed;
+    // Include all words from all sets for highlighting
+    const allWords = Object.values(allWordSets).flat();
 
     if (poemType !== 'fixed') {
-      // For alternative and third poems, use regular parsing
+      // For non-fixed poems, use regular parsing
       const regex = new RegExp(`\\b(${allWords.join('|')})\\b`, 'gi');
       const parts = line.split(regex);
       
@@ -236,11 +358,21 @@ const PoemDisplay = () => {
                   {index === 0 ? renderSpecialFirstLine(line) : 
                     // For other lines, use the regular parsing
                     (() => {
-                      const allWords = poemType === 'third'
-                        ? ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
-                        : poemType === 'alternative' 
-                        ? ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
-                        : ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'];
+                      const allWordSets = {
+                        tenth: ['close', 'apart', 'burning', 'cold', 'tiny', 'vast', 'force', 'peace'],
+                        ninth: ['intimate', 'distant', 'radiant', 'shadowed', 'local', 'universal', 'motion', 'rest'],
+                        eighth: ['connected', 'isolated', 'bright', 'dark', 'finite', 'boundless', 'pulse', 'calm'],
+                        seventh: ['adjacent', 'remote', 'binary', 'solitary', 'nano', 'mega', 'flow', 'stasis'],
+                        sixth: ['parallel', 'convergent', 'dwarf', 'giant', 'quantum', 'cosmic', 'vibration', 'stillness'],
+                        fifth: ['bound', 'free', 'asteroid', 'meteor', 'particle', 'wave', 'rhythm', 'silence'],
+                        fourth: ['eternal', 'fleeting', 'pulsar', 'quasar', 'microcosm', 'macrocosm', 'harmony', 'chaos'],
+                        third: ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space'],
+                        alternative: ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'],
+                        fixed: ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+                      };
+                      
+                      // Include all words from all sets for highlighting
+                      const allWords = Object.values(allWordSets).flat();
                       
                       const regex = new RegExp(`\\b(${allWords.join('|')})\\b`, 'gi');
                       const parts = line.split(regex);
@@ -286,3 +418,4 @@ const PoemDisplay = () => {
 };
 
 export default PoemDisplay;
+

@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,62 @@ const WordSelection = () => {
     celestial: ['comet', 'moon'],
     scope: ['dimension', 'reality'],
     essence: ['time', 'space']
+  };
+
+  // Fourth visit word pairs
+  const fourthVisitWordPairs = {
+    proximity: ['eternal', 'fleeting'],
+    celestial: ['pulsar', 'quasar'],
+    scope: ['microcosm', 'macrocosm'],
+    essence: ['harmony', 'chaos']
+  };
+
+  // Fifth visit word pairs
+  const fifthVisitWordPairs = {
+    proximity: ['bound', 'free'],
+    celestial: ['asteroid', 'meteor'],
+    scope: ['particle', 'wave'],
+    essence: ['rhythm', 'silence']
+  };
+
+  // Sixth visit word pairs
+  const sixthVisitWordPairs = {
+    proximity: ['parallel', 'convergent'],
+    celestial: ['dwarf', 'giant'],
+    scope: ['quantum', 'cosmic'],
+    essence: ['vibration', 'stillness']
+  };
+
+  // Seventh visit word pairs
+  const seventhVisitWordPairs = {
+    proximity: ['adjacent', 'remote'],
+    celestial: ['binary', 'solitary'],
+    scope: ['nano', 'mega'],
+    essence: ['flow', 'stasis']
+  };
+
+  // Eighth visit word pairs
+  const eighthVisitWordPairs = {
+    proximity: ['connected', 'isolated'],
+    celestial: ['bright', 'dark'],
+    scope: ['finite', 'boundless'],
+    essence: ['pulse', 'calm']
+  };
+
+  // Ninth visit word pairs
+  const ninthVisitWordPairs = {
+    proximity: ['intimate', 'distant'],
+    celestial: ['radiant', 'shadowed'],
+    scope: ['local', 'universal'],
+    essence: ['motion', 'rest']
+  };
+
+  // Tenth visit word pairs
+  const tenthVisitWordPairs = {
+    proximity: ['close', 'apart'],
+    celestial: ['burning', 'cold'],
+    scope: ['tiny', 'vast'],
+    essence: ['force', 'peace']
   };
 
   const categoryLabels = {
@@ -153,7 +210,14 @@ const WordSelection = () => {
   const getCurrentWordPairs = () => {
     if (visitCount === 0) return fixedWordPairs;
     if (visitCount === 1) return alternativeWordPairs;
-    return thirdVisitWordPairs; // 2+ visits use third set
+    if (visitCount === 2) return thirdVisitWordPairs;
+    if (visitCount === 3) return fourthVisitWordPairs;
+    if (visitCount === 4) return fifthVisitWordPairs;
+    if (visitCount === 5) return sixthVisitWordPairs;
+    if (visitCount === 6) return seventhVisitWordPairs;
+    if (visitCount === 7) return eighthVisitWordPairs;
+    if (visitCount === 8) return ninthVisitWordPairs;
+    return tenthVisitWordPairs; // 9+ visits use tenth set
   };
 
   const handleSubmit = () => {
@@ -247,3 +311,4 @@ const WordSelection = () => {
 };
 
 export default WordSelection;
+
