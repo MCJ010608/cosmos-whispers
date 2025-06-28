@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,7 +13,7 @@ const WordSelection = () => {
     scope: '',
     essence: '',
   });
-  const [isRepeatVisit, setIsRepeatVisit] = useState(false);
+  const [visitCount, setVisitCount] = useState(0);
   const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
 
   // Fixed word pairs for first-time users
@@ -25,12 +24,20 @@ const WordSelection = () => {
     essence: ['light', 'energy']
   };
 
-  // Alternative word pairs for repeat visits
+  // Alternative word pairs for repeat visits (2nd time)
   const alternativeWordPairs = {
     proximity: ['quantum', 'distant'],
     celestial: ['nebula', 'galaxy'],
     scope: ['molecule', 'atom'],
     essence: ['gravity', 'magnetism']
+  };
+
+  // Third visit word pairs
+  const thirdVisitWordPairs = {
+    proximity: ['infinite', 'void'],
+    celestial: ['comet', 'moon'],
+    scope: ['dimension', 'reality'],
+    essence: ['time', 'space']
   };
 
   const categoryLabels = {
@@ -61,9 +68,9 @@ const WordSelection = () => {
   };
 
   useEffect(() => {
-    // Check if this is a repeat visit within the same session
-    const hasVisitedBefore = sessionStorage.getItem('hasVisitedPoem');
-    setIsRepeatVisit(!!hasVisitedBefore);
+    // Get the current visit count from sessionStorage
+    const currentCount = parseInt(sessionStorage.getItem('poemCreationCount') || '0', 10);
+    setVisitCount(currentCount);
   }, []);
 
   // Function to play sound (to be implemented by user)
@@ -102,8 +109,8 @@ const WordSelection = () => {
     // Play sound when a word is selected
     playButtonSound(wordType, word);
     
-    // Get appropriate word pairs based on visit status
-    const currentWordPairs = isRepeatVisit ? alternativeWordPairs : fixedWordPairs;
+    // Get appropriate word pairs based on visit count
+    const currentWordPairs = getCurrentWordPairs();
     
     // Assign color ensuring each pair has one white and one yellow
     if (!wordColors[word]) {
@@ -121,6 +128,13 @@ const WordSelection = () => {
     }));
   };
 
+  // Helper function to get current word pairs based on visit count
+  const getCurrentWordPairs = () => {
+    if (visitCount === 0) return fixedWordPairs;
+    if (visitCount === 1) return alternativeWordPairs;
+    return thirdVisitWordPairs; // 2+ visits use third set
+  };
+
   const handleSubmit = () => {
     // Play sound for submit button
     playButtonSound('submit', 'submit');
@@ -132,8 +146,11 @@ const WordSelection = () => {
       // Store selections and their colors in localStorage
       localStorage.setItem('cosmicWords', JSON.stringify(selectedWords));
       localStorage.setItem('cosmicWordColors', JSON.stringify(wordColors));
-      // Mark that user has visited the poem page in this session
-      sessionStorage.setItem('hasVisitedPoem', 'true');
+      
+      // Increment visit count for next time
+      const newCount = visitCount + 1;
+      sessionStorage.setItem('poemCreationCount', newCount.toString());
+      
       // Navigate to the poetry page
       navigate('/poem');
     } else {
@@ -142,8 +159,8 @@ const WordSelection = () => {
     }
   };
 
-  // Get the appropriate word pairs based on visit status
-  const currentWordPairs = isRepeatVisit ? alternativeWordPairs : fixedWordPairs;
+  // Get the appropriate word pairs based on visit count
+  const currentWordPairs = getCurrentWordPairs();
 
   return (
     <div className="min-h-screen bg-cosmic-deep-space text-white font-serif relative overflow-hidden">
@@ -156,11 +173,11 @@ const WordSelection = () => {
           Cosmos Whispers
         </h1>
         <p className="text-xl md:text-2xl font-serif italic text-gray-300 text-center max-w-2xl mx-auto mb-12 fade-up">
-          Choose your cosmic words
+          Choose your cosmic words {visitCount > 0 && `(Visit ${visitCount + 1})`}
         </p>
         
         <div className="max-w-xl mx-auto space-y-8 fade-up">
-          {/* Dynamic word pairs based on visit status */}
+          {/* Dynamic word pairs based on visit count */}
           {Object.entries(currentWordPairs).map(([category, words]) => (
             <div key={category} className="space-y-2">
               <h2 className="text-xl text-gray-200 font-serif">{categoryLabels[category as keyof typeof categoryLabels]}:</h2>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StarBackground from '@/components/StarBackground';
@@ -16,7 +15,7 @@ const PoemDisplay = () => {
     essence: 'light'
   });
   const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
-  const [isAlternativePoem, setIsAlternativePoem] = useState(false);
+  const [poemType, setPoemType] = useState<'fixed' | 'alternative' | 'third'>('fixed');
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -28,12 +27,24 @@ const PoemDisplay = () => {
       const parsedWords = JSON.parse(storedWords);
       setUserWords(parsedWords);
       
-      // Check if this is using alternative word pairs
+      // Determine poem type based on words used
       const alternativeWords = ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism'];
+      const thirdVisitWords = ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space'];
+      
+      const hasThirdWords = Object.values(parsedWords).some((word: unknown) => 
+        typeof word === 'string' && thirdVisitWords.includes(word.toLowerCase())
+      );
       const hasAlternativeWords = Object.values(parsedWords).some((word: unknown) => 
         typeof word === 'string' && alternativeWords.includes(word.toLowerCase())
       );
-      setIsAlternativePoem(hasAlternativeWords);
+      
+      if (hasThirdWords) {
+        setPoemType('third');
+      } else if (hasAlternativeWords) {
+        setPoemType('alternative');
+      } else {
+        setPoemType('fixed');
+      }
     }
     
     if (storedColors) {
@@ -82,21 +93,41 @@ const PoemDisplay = () => {
       `Your ${essence} binds my very existence.`
     ];
   };
+
+  // Generate third poem for third-time visits
+  const generateThirdPoem = () => {
+    const { proximity, celestial, scope, essence } = userWords;
+    
+    return [
+      `Across the ${proximity} expanse of creation,`,
+      `Where ${celestial} whispers ancient secrets,`,
+      `In every ${scope} of existence,`,
+      `Your ${essence} weaves through eternity.`
+    ];
+  };
   
-  const poemLines = isAlternativePoem ? generateAlternativePoem() : generateFixedPoem();
+  const poemLines = poemType === 'third' ? generateThirdPoem() : 
+                   poemType === 'alternative' ? generateAlternativePoem() : 
+                   generateFixedPoem();
 
   // Special handling for the word "near" in the first line (only for fixed poem)
   const renderSpecialFirstLine = (line: string) => {
-    if (isAlternativePoem) {
-      // For alternative poem, use regular parsing
-      const regex = /\b(quantum|distant|nebula|galaxy|molecule|atom|gravity|magnetism|near|far|star|sun|cosmos|universe|light|energy)\b/gi;
+    const allWords = poemType === 'third' 
+      ? ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+      : poemType === 'alternative'
+      ? ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+      : ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'];
+
+    if (poemType !== 'fixed') {
+      // For alternative and third poems, use regular parsing
+      const regex = new RegExp(`\\b(${allWords.join('|')})\\b`, 'gi');
       const parts = line.split(regex);
       
       return (
         <>
           {parts.map((part, partIndex) => {
             const lowerPart = part.toLowerCase();
-            if (['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'].includes(lowerPart)) {
+            if (allWords.includes(lowerPart)) {
               return (
                 <span key={partIndex} className={getWordColor(lowerPart)}>
                   {part}
@@ -205,7 +236,9 @@ const PoemDisplay = () => {
                   {index === 0 ? renderSpecialFirstLine(line) : 
                     // For other lines, use the regular parsing
                     (() => {
-                      const allWords = isAlternativePoem 
+                      const allWords = poemType === 'third'
+                        ? ['infinite', 'void', 'comet', 'moon', 'dimension', 'reality', 'time', 'space', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
+                        : poemType === 'alternative' 
                         ? ['quantum', 'distant', 'nebula', 'galaxy', 'molecule', 'atom', 'gravity', 'magnetism', 'near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy']
                         : ['near', 'far', 'star', 'sun', 'cosmos', 'universe', 'light', 'energy'];
                       
