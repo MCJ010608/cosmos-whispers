@@ -16,12 +16,24 @@ const WordSelection = () => {
   const [visitCount, setVisitCount] = useState(0);
   const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
 
-  // Fixed word pairs for first-time users
+  // Fixed word pairs for first-time users with their original colors
   const fixedWordPairs = {
     proximity: ['near', 'far'],
-    celestial: ['star', 'sun'],
+    celestial: ['star', 'sun'], 
     scope: ['universe', 'cosmos'],
     essence: ['light', 'energy']
+  };
+
+  // Fixed colors for first visit (restore original mapping)
+  const fixedWordColors = {
+    'far': 'white',
+    'near': 'yellow',
+    'star': 'white', 
+    'sun': 'yellow',
+    'cosmos': 'white',
+    'universe': 'yellow',
+    'energy': 'white',
+    'light': 'yellow'
   };
 
   // Alternative word pairs for repeat visits (2nd time)
@@ -71,6 +83,11 @@ const WordSelection = () => {
     // Get the current visit count from sessionStorage
     const currentCount = parseInt(sessionStorage.getItem('poemCreationCount') || '0', 10);
     setVisitCount(currentCount);
+    
+    // If it's the first visit, set the fixed colors
+    if (currentCount === 0) {
+      setWordColors(fixedWordColors);
+    }
   }, []);
 
   // Function to play sound (to be implemented by user)
@@ -81,19 +98,22 @@ const WordSelection = () => {
 
   // Helper function to assign colors ensuring each pair has one white and one yellow
   const assignPairColors = (category: string, word: string, wordPairs: Record<string, string[]>) => {
+    // For first visit, use fixed colors
+    if (visitCount === 0) {
+      return fixedWordColors[word as keyof typeof fixedWordColors] || 'white';
+    }
+    
+    // For other visits, use random assignment logic
     const pair = wordPairs[category];
     const otherWord = pair.find(w => w !== word);
     
-    if (!otherWord) return 'white'; // fallback
+    if (!otherWord) return 'white';
     
-    // Check if the other word already has a color assigned
     const otherWordColor = wordColors[otherWord];
     
     if (otherWordColor) {
-      // If other word has a color, assign the opposite
       return otherWordColor === 'white' ? 'yellow' : 'white';
     } else {
-      // If no other word has color yet, randomly assign and ensure they're different
       const randomColor = Math.random() < 0.5 ? 'white' : 'yellow';
       return randomColor;
     }
