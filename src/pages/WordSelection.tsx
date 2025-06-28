@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ const WordSelection = () => {
   };
 
   // Fixed colors for first visit (restore original mapping)
-  const fixedWordColors = {
+  const fixedWordColors: Record<string, 'white' | 'yellow'> = {
     'far': 'white',
     'near': 'yellow',
     'star': 'white', 
@@ -97,7 +98,7 @@ const WordSelection = () => {
   };
 
   // Helper function to assign colors ensuring each pair has one white and one yellow
-  const assignPairColors = (category: string, word: string, wordPairs: Record<string, string[]>) => {
+  const assignPairColors = (category: string, word: string, wordPairs: Record<string, string[]>): 'white' | 'yellow' => {
     // For first visit, use fixed colors
     if (visitCount === 0) {
       return fixedWordColors[word as keyof typeof fixedWordColors] || 'white';
@@ -114,7 +115,7 @@ const WordSelection = () => {
     if (otherWordColor) {
       return otherWordColor === 'white' ? 'yellow' : 'white';
     } else {
-      const randomColor = Math.random() < 0.5 ? 'white' : 'yellow';
+      const randomColor: 'white' | 'yellow' = Math.random() < 0.5 ? 'white' : 'yellow';
       return randomColor;
     }
   };
