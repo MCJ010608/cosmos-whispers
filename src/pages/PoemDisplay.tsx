@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StarBackground from '@/components/StarBackground';
@@ -107,10 +106,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `In the dance of ${proximity} particles,`,
-      `I find echoes of your ${celestial} beauty.`,
-      `From the smallest ${scope} to infinite space,`,
-      `Your ${essence} binds my very existence.`
+      `When we are ${proximity} in heart,`,
+      `Like a ${celestial} lighting the dark,`,
+      `In this beautiful ${scope} we share,`,
+      `Your ${essence} is always there.`
     ];
   };
 
@@ -119,10 +118,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Across the ${proximity} expanse of creation,`,
-      `Where ${celestial} whispers ancient secrets,`,
-      `In every ${scope} of existence,`,
-      `Your ${essence} weaves through eternity.`
+      `Whether we're ${proximity} or far away,`,
+      `A ${celestial} guides me every day,`,
+      `Across this wide and wondrous ${scope},`,
+      `Your ${essence} fills my heart with hope.`
     ];
   };
 
@@ -131,10 +130,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `In moments ${proximity} and profound,`,
-      `Like a ${celestial} in deep space found,`,
-      `Within each ${scope} of reality,`,
-      `Your ${essence} sets my spirit free.`
+      `When souls are ${proximity} as one,`,
+      `Like a ${celestial} morning sun,`,
+      `In this ${scope} world of dreams,`,
+      `Your ${essence} forever gleams.`
     ];
   };
 
@@ -143,10 +142,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Whether ${proximity} or wandering free,`,
-      `Like a ${celestial} across the cosmic sea,`,
-      `In every ${scope} of quantum light,`,
-      `Your ${essence} makes everything right.`
+      `Hearts ${proximity} through time and space,`,
+      `A ${celestial} light upon your face,`,
+      `In this ${scope} universe so free,`,
+      `Your ${essence} means everything to me.`
     ];
   };
 
@@ -155,10 +154,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Through paths ${proximity} in the void,`,
-      `Where ${celestial} stars are deployed,`,
-      `In the ${scope} realm of dreams,`,
-      `Your ${essence} forever gleams.`
+      `Two spirits ${proximity} in the night,`,
+      `A ${celestial} beacon burning bright,`,
+      `In this ${scope} cosmic dance divine,`,
+      `Your ${essence} heart beats close to mine.`
     ];
   };
 
@@ -167,10 +166,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `From positions ${proximity} in space,`,
-      `A ${celestial} illuminates your face,`,
-      `In the ${scope} world we share,`,
-      `Your ${essence} is beyond compare.`
+      `Love ${proximity} beyond all measure,`,
+      `A ${celestial} star, my greatest treasure,`,
+      `In this ${scope} realm where dreams take flight,`,
+      `Your ${essence} makes everything right.`
     ];
   };
 
@@ -179,10 +178,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Though we may be ${proximity} apart,`,
-      `Like a ${celestial} burning in my heart,`,
-      `In this ${scope} universe so wide,`,
-      `Your ${essence} is my eternal guide.`
+      `Though we may be ${proximity} in space,`,
+      `A ${celestial} memory of your grace,`,
+      `In this ${scope} world both far and near,`,
+      `Your ${essence} voice I always hear.`
     ];
   };
 
@@ -191,10 +190,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `In moments ${proximity} and true,`,
-      `A ${celestial} reminds me of you,`,
-      `Through the ${scope} tapestry of time,`,
-      `Your ${essence} makes everything rhyme.`
+      `When hearts are ${proximity} and true,`,
+      `A ${celestial} light reminds me of you,`,
+      `In this ${scope} garden of time,`,
+      `Your ${essence} love makes life sublime.`
     ];
   };
 
@@ -203,10 +202,10 @@ const PoemDisplay = () => {
     const { proximity, celestial, scope, essence } = userWords;
     
     return [
-      `Whether ${proximity} or worlds apart,`,
-      `A ${celestial} flame within my heart,`,
-      `In this ${scope} cosmic dance divine,`,
-      `Your ${essence} eternally aligns with mine.`
+      `Two souls ${proximity} in perfect rhyme,`,
+      `A ${celestial} song through space and time,`,
+      `In this ${scope} tapestry of fate,`,
+      `Your ${essence} love will always wait.`
     ];
   };
   
@@ -418,4 +417,3 @@ const PoemDisplay = () => {
 };
 
 export default PoemDisplay;
-

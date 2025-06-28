@@ -1,4 +1,3 @@
-
 export const fixedWordPairs = {
   proximity: ['near', 'far'],
   celestial: ['star', 'sun'], 
@@ -7,66 +6,66 @@ export const fixedWordPairs = {
 };
 
 export const alternativeWordPairs = {
-  proximity: ['quantum', 'distant'],
-  celestial: ['nebula', 'galaxy'],
-  scope: ['molecule', 'atom'],
-  essence: ['gravity', 'magnetism']
+  proximity: ['close', 'distant'],
+  celestial: ['moon', 'planet'],
+  scope: ['world', 'space'],
+  essence: ['warmth', 'power']
 };
 
 export const thirdVisitWordPairs = {
-  proximity: ['infinite', 'void'],
-  celestial: ['comet', 'moon'],
-  scope: ['dimension', 'reality'],
-  essence: ['time', 'space']
+  proximity: ['together', 'apart'],
+  celestial: ['comet', 'meteor'],
+  scope: ['earth', 'sky'],
+  essence: ['love', 'hope']
 };
 
 export const fourthVisitWordPairs = {
-  proximity: ['eternal', 'fleeting'],
-  celestial: ['pulsar', 'quasar'],
-  scope: ['microcosm', 'macrocosm'],
-  essence: ['harmony', 'chaos']
+  proximity: ['united', 'separate'],
+  celestial: ['bright', 'shining'],
+  scope: ['small', 'vast'],
+  essence: ['peace', 'joy']
 };
 
 export const fifthVisitWordPairs = {
-  proximity: ['bound', 'free'],
-  celestial: ['asteroid', 'meteor'],
-  scope: ['particle', 'wave'],
-  essence: ['rhythm', 'silence']
+  proximity: ['joined', 'divided'],
+  celestial: ['golden', 'silver'],
+  scope: ['tiny', 'endless'],
+  essence: ['calm', 'strong']
 };
 
 export const sixthVisitWordPairs = {
-  proximity: ['parallel', 'convergent'],
-  celestial: ['dwarf', 'giant'],
-  scope: ['quantum', 'cosmic'],
-  essence: ['vibration', 'stillness']
+  proximity: ['linked', 'alone'],
+  celestial: ['glowing', 'radiant'],
+  scope: ['little', 'massive'],
+  essence: ['gentle', 'bold']
 };
 
 export const seventhVisitWordPairs = {
-  proximity: ['adjacent', 'remote'],
-  celestial: ['binary', 'solitary'],
-  scope: ['nano', 'mega'],
-  essence: ['flow', 'stasis']
+  proximity: ['bound', 'free'],
+  celestial: ['sparkling', 'brilliant'],
+  scope: ['mini', 'giant'],
+  essence: ['soft', 'fierce']
 };
 
 export const eighthVisitWordPairs = {
-  proximity: ['connected', 'isolated'],
-  celestial: ['bright', 'dark'],
-  scope: ['finite', 'boundless'],
-  essence: ['pulse', 'calm']
+  proximity: ['attached', 'loose'],
+  celestial: ['twinkling', 'blazing'],
+  scope: ['narrow', 'wide'],
+  essence: ['quiet', 'loud']
 };
 
 export const ninthVisitWordPairs = {
-  proximity: ['intimate', 'distant'],
-  celestial: ['radiant', 'shadowed'],
-  scope: ['local', 'universal'],
-  essence: ['motion', 'rest']
+  proximity: ['connected', 'isolated'],
+  celestial: ['dancing', 'floating'],
+  scope: ['focused', 'open'],
+  essence: ['steady', 'wild']
 };
 
 export const tenthVisitWordPairs = {
-  proximity: ['close', 'apart'],
-  celestial: ['burning', 'cold'],
-  scope: ['tiny', 'vast'],
-  essence: ['force', 'peace']
+  proximity: ['meeting', 'parting'],
+  celestial: ['singing', 'whispering'],
+  scope: ['centered', 'spread'],
+  essence: ['flowing', 'still']
 };
 
 export const categoryLabels = {
