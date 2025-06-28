@@ -1,255 +1,45 @@
 
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import StarBackground from '@/components/StarBackground';
 import CosmicGradient from '@/components/CosmicGradient';
-import { cn } from '@/lib/utils';
+import WordSelectionForm from '@/components/WordSelectionForm';
+import { useWordSelection } from '@/hooks/useWordSelection';
 
 const WordSelection = () => {
   const navigate = useNavigate();
-  const [selectedWords, setSelectedWords] = useState<Record<string, string>>({
-    proximity: '',
-    celestial: '',
-    scope: '',
-    essence: '',
-  });
-  const [visitCount, setVisitCount] = useState(0);
-  const [wordColors, setWordColors] = useState<Record<string, 'white' | 'yellow'>>({});
+  const {
+    selectedWords,
+    visitCount,
+    wordColors,
+    handleWordSelection,
+    getTextColorClass
+  } = useWordSelection();
 
-  // Fixed word pairs for first-time users with their original colors
-  const fixedWordPairs = {
-    proximity: ['near', 'far'],
-    celestial: ['star', 'sun'], 
-    scope: ['universe', 'cosmos'],
-    essence: ['light', 'energy']
-  };
-
-  // Fixed colors for first visit (restore original mapping)
-  const fixedWordColors: Record<string, 'white' | 'yellow'> = {
-    'far': 'white',
-    'near': 'yellow',
-    'star': 'white', 
-    'sun': 'yellow',
-    'cosmos': 'white',
-    'universe': 'yellow',
-    'energy': 'white',
-    'light': 'yellow'
-  };
-
-  // Alternative word pairs for repeat visits (2nd time)
-  const alternativeWordPairs = {
-    proximity: ['quantum', 'distant'],
-    celestial: ['nebula', 'galaxy'],
-    scope: ['molecule', 'atom'],
-    essence: ['gravity', 'magnetism']
-  };
-
-  // Third visit word pairs
-  const thirdVisitWordPairs = {
-    proximity: ['infinite', 'void'],
-    celestial: ['comet', 'moon'],
-    scope: ['dimension', 'reality'],
-    essence: ['time', 'space']
-  };
-
-  // Fourth visit word pairs
-  const fourthVisitWordPairs = {
-    proximity: ['eternal', 'fleeting'],
-    celestial: ['pulsar', 'quasar'],
-    scope: ['microcosm', 'macrocosm'],
-    essence: ['harmony', 'chaos']
-  };
-
-  // Fifth visit word pairs
-  const fifthVisitWordPairs = {
-    proximity: ['bound', 'free'],
-    celestial: ['asteroid', 'meteor'],
-    scope: ['particle', 'wave'],
-    essence: ['rhythm', 'silence']
-  };
-
-  // Sixth visit word pairs
-  const sixthVisitWordPairs = {
-    proximity: ['parallel', 'convergent'],
-    celestial: ['dwarf', 'giant'],
-    scope: ['quantum', 'cosmic'],
-    essence: ['vibration', 'stillness']
-  };
-
-  // Seventh visit word pairs
-  const seventhVisitWordPairs = {
-    proximity: ['adjacent', 'remote'],
-    celestial: ['binary', 'solitary'],
-    scope: ['nano', 'mega'],
-    essence: ['flow', 'stasis']
-  };
-
-  // Eighth visit word pairs
-  const eighthVisitWordPairs = {
-    proximity: ['connected', 'isolated'],
-    celestial: ['bright', 'dark'],
-    scope: ['finite', 'boundless'],
-    essence: ['pulse', 'calm']
-  };
-
-  // Ninth visit word pairs
-  const ninthVisitWordPairs = {
-    proximity: ['intimate', 'distant'],
-    celestial: ['radiant', 'shadowed'],
-    scope: ['local', 'universal'],
-    essence: ['motion', 'rest']
-  };
-
-  // Tenth visit word pairs
-  const tenthVisitWordPairs = {
-    proximity: ['close', 'apart'],
-    celestial: ['burning', 'cold'],
-    scope: ['tiny', 'vast'],
-    essence: ['force', 'peace']
-  };
-
-  const categoryLabels = {
-    proximity: 'Connection',
-    celestial: 'Cosmic Body',
-    scope: 'Scale',
-    essence: 'Force'
-  };
-
-  // Define gradient styles for each category
-  const categoryStyles = {
-    proximity: {
-      selected: 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-200 hover:to-purple-300 hover:text-black',
-      unselected: 'bg-transparent border-purple-400 text-purple-200 hover:bg-purple-200 hover:text-black hover:border-purple-300'
-    },
-    celestial: {
-      selected: 'bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-200 hover:to-blue-300 hover:text-black',
-      unselected: 'bg-transparent border-blue-400 text-blue-200 hover:bg-blue-200 hover:text-black hover:border-blue-300'
-    },
-    scope: {
-      selected: 'bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-200 hover:to-teal-300 hover:text-black',
-      unselected: 'bg-transparent border-teal-400 text-teal-200 hover:bg-teal-200 hover:text-black hover:border-teal-300'
-    },
-    essence: {
-      selected: 'bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-200 hover:to-orange-300 hover:text-black',
-      unselected: 'bg-transparent border-orange-400 text-orange-200 hover:bg-orange-200 hover:text-black hover:border-orange-300'
-    }
-  };
-
-  useEffect(() => {
-    // Get the current visit count from sessionStorage
-    const currentCount = parseInt(sessionStorage.getItem('poemCreationCount') || '0', 10);
-    setVisitCount(currentCount);
-    
-    // If it's the first visit, set the fixed colors
-    if (currentCount === 0) {
-      setWordColors(fixedWordColors);
-    }
-  }, []);
-
-  // Function to play sound (to be implemented by user)
   const playButtonSound = (wordType: string, word: string) => {
-    // This function will be implemented by the user
     console.log(`Button clicked: ${wordType} - ${word}`);
   };
 
-  // Helper function to assign colors ensuring each pair has one white and one yellow
-  const assignPairColors = (category: string, word: string, wordPairs: Record<string, string[]>): 'white' | 'yellow' => {
-    // For first visit, use fixed colors
-    if (visitCount === 0) {
-      return fixedWordColors[word as keyof typeof fixedWordColors] || 'white';
-    }
-    
-    // For other visits, use random assignment logic
-    const pair = wordPairs[category];
-    const otherWord = pair.find(w => w !== word);
-    
-    if (!otherWord) return 'white';
-    
-    const otherWordColor = wordColors[otherWord];
-    
-    if (otherWordColor) {
-      return otherWordColor === 'white' ? 'yellow' : 'white';
-    } else {
-      const randomColor: 'white' | 'yellow' = Math.random() < 0.5 ? 'white' : 'yellow';
-      return randomColor;
-    }
-  };
-
-  // Helper function to get text color class
-  const getTextColorClass = (word: string) => {
-    const color = wordColors[word];
-    return color === 'white' ? 'text-white' : 'text-yellow-200';
-  };
-
-  const handleWordSelection = (wordType: string, word: string) => {
-    // Play sound when a word is selected
-    playButtonSound(wordType, word);
-    
-    // Get appropriate word pairs based on visit count
-    const currentWordPairs = getCurrentWordPairs();
-    
-    // Assign color ensuring each pair has one white and one yellow
-    if (!wordColors[word]) {
-      const assignedColor = assignPairColors(wordType, word, currentWordPairs);
-      setWordColors(prev => ({
-        ...prev,
-        [word]: assignedColor
-      }));
-    }
-    
-    // Update the selected words
-    setSelectedWords(prev => ({
-      ...prev,
-      [wordType]: word
-    }));
-  };
-
-  // Helper function to get current word pairs based on visit count
-  const getCurrentWordPairs = () => {
-    if (visitCount === 0) return fixedWordPairs;
-    if (visitCount === 1) return alternativeWordPairs;
-    if (visitCount === 2) return thirdVisitWordPairs;
-    if (visitCount === 3) return fourthVisitWordPairs;
-    if (visitCount === 4) return fifthVisitWordPairs;
-    if (visitCount === 5) return sixthVisitWordPairs;
-    if (visitCount === 6) return seventhVisitWordPairs;
-    if (visitCount === 7) return eighthVisitWordPairs;
-    if (visitCount === 8) return ninthVisitWordPairs;
-    return tenthVisitWordPairs; // 9+ visits use tenth set
-  };
-
   const handleSubmit = () => {
-    // Play sound for submit button
     playButtonSound('submit', 'submit');
     
-    // Check if all categories have a selection
     const allSelected = Object.values(selectedWords).every(word => word !== '');
     
     if (allSelected) {
-      // Store selections and their colors in localStorage
       localStorage.setItem('cosmicWords', JSON.stringify(selectedWords));
       localStorage.setItem('cosmicWordColors', JSON.stringify(wordColors));
       
-      // Increment visit count for next time
       const newCount = visitCount + 1;
       sessionStorage.setItem('poemCreationCount', newCount.toString());
       
-      // Navigate to the poetry page
       navigate('/poem');
     } else {
-      // You could add a visual indication that all words need to be selected
       console.log('Please select one word from each category');
     }
   };
 
-  // Get the appropriate word pairs based on visit count
-  const currentWordPairs = getCurrentWordPairs();
-
   return (
     <div className="min-h-screen bg-cosmic-deep-space text-white font-serif relative overflow-hidden">
-      {/* Background elements */}
       <CosmicGradient />
       <StarBackground />
       
@@ -261,54 +51,16 @@ const WordSelection = () => {
           Choose your cosmic words {visitCount > 0 && `(Visit ${visitCount + 1})`}
         </p>
         
-        <div className="max-w-xl mx-auto space-y-8 fade-up">
-          {/* Dynamic word pairs based on visit count */}
-          {Object.entries(currentWordPairs).map(([category, words]) => (
-            <div key={category} className="space-y-2">
-              <h2 className="text-xl text-gray-200 font-serif">{categoryLabels[category as keyof typeof categoryLabels]}:</h2>
-              <div className="flex gap-4 justify-center">
-                <Button
-                  variant={selectedWords[category] === words[0] ? 'default' : 'outline'} 
-                  className={cn(
-                    "w-1/2 py-6 text-lg transition-all duration-300 font-bold",
-                    selectedWords[category] === words[0] 
-                      ? `${categoryStyles[category as keyof typeof categoryStyles].selected} ${getTextColorClass(words[0])}` 
-                      : categoryStyles[category as keyof typeof categoryStyles].unselected
-                  )}
-                  onClick={() => handleWordSelection(category, words[0])}
-                >
-                  {words[0].charAt(0).toUpperCase() + words[0].slice(1)}
-                </Button>
-                <Button
-                  variant={selectedWords[category] === words[1] ? 'default' : 'outline'}
-                  className={cn(
-                    "w-1/2 py-6 text-lg transition-all duration-300 font-bold",
-                    selectedWords[category] === words[1] 
-                      ? `${categoryStyles[category as keyof typeof categoryStyles].selected} ${getTextColorClass(words[1])}` 
-                      : categoryStyles[category as keyof typeof categoryStyles].unselected
-                  )}
-                  onClick={() => handleWordSelection(category, words[1])}
-                >
-                  {words[1].charAt(0).toUpperCase() + words[1].slice(1)}
-                </Button>
-              </div>
-            </div>
-          ))}
-          
-          {/* Submit Button */}
-          <div className="pt-8">
-            <Button 
-              className="w-full py-8 text-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-200 hover:to-pink-300 hover:text-black transition-all duration-300"
-              onClick={handleSubmit}
-            >
-              Create Cosmic Poem
-            </Button>
-          </div>
-        </div>
+        <WordSelectionForm
+          selectedWords={selectedWords}
+          visitCount={visitCount}
+          onWordSelection={handleWordSelection}
+          getTextColorClass={getTextColorClass}
+          onSubmit={handleSubmit}
+        />
       </div>
     </div>
   );
 };
 
 export default WordSelection;
-
